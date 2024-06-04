@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ProfilRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: ProfilRepository::class)]
 class Profil
@@ -12,28 +14,36 @@ class Profil
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("getProfil")]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $id_client = null;
-
     #[ORM\Column(length: 255)]
+    #[Groups("getProfil")]
     private ?string $nom_salon = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("getProfil")]
     private ?string $adresse_salon = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups("getProfil")]
     private ?\DateTimeInterface $date_ouverture = null;
 
     #[ORM\Column]
+    #[Groups("getProfil")]
     private ?int $nombre_employes = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("getProfil")]
     private ?string $nom_gerant = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("getProfil")]
     private ?string $prenom_gerant = null;
+
+    #[ORM\OneToOne(inversedBy: 'id_profil', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $id_user = null;
 
     public function getId(): ?int
     {
@@ -43,18 +53,6 @@ class Profil
     public function setId(int $id): static
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getIdClient(): ?int
-    {
-        return $this->id_client;
-    }
-
-    public function setIdClient(int $id_client): static
-    {
-        $this->id_client = $id_client;
 
         return $this;
     }
@@ -127,6 +125,18 @@ class Profil
     public function setPrenomGerant(string $prenom_gerant): static
     {
         $this->prenom_gerant = $prenom_gerant;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?User
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(User $id_user): static
+    {
+        $this->id_user = $id_user;
 
         return $this;
     }
