@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CaController extends AbstractController
 {
-    #[Route('/api/ca', name: 'app_ca', methods: ['GET'])]
+    #[Route('/api/historique', name: 'app_ca', methods: ['GET'])]
     public function getClientList(CaRepository $caRepository, SerializerInterface $serializer): JsonResponse
     {
 
@@ -26,7 +26,7 @@ class CaController extends AbstractController
     }
 
 
-    #[Route('/api/ca', name: "createCa", methods: ['POST'])]
+    #[Route('/api/nouveau_ca', name: "createCa", methods: ['POST'])]
     public function createCa(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
     {
 
